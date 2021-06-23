@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="robots" content="follow,index">
+  <meta name="keywords" content="student,profile,academic,school,schedule,blog">
+  <meta name="description" content="Academics section of my personal profile page for the Icarus server">
+  <title>CSS Transitions | Blog | Skyler James</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    figure {
+      display: inline-block;
+      width: 200px;
+      height: 100px;
+    }
+    .showcase {
+      width: 100px;
+      height: 100px;
+      border-radius: 25px;
+      background-color: lightskyblue;
+      padding: 1rem;
+      transform: rotate(0);
+      transition: all 2s;
+    }
+    .showcase:hover {
+      background-color: yellow;
+      transform: rotate(360deg);
+    }
+    .ex {
+      width: 50px;
+      height: 100px;
+      background-color: red;
+      transition-property: width;
+      transition-duration: 2s;
+    }
+    .ex:hover {
+      width: 200px;
+    }
+    .colorchange {
+      width: 50px;
+      height: 100px;
+      background-color: red;
+      transition: width 2s, background-color 2s;
+    }
+    .colorchange:hover {
+      background-color: yellow;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <script src="js/header.js"></script>
+
+  <article id="blog">
+    <h1>Blog Post: CSS Transitions</h1>
+    <section>
+      <h2>What are CSS Transitions?</h2>
+      <p>According to w3schools, CSS transitions <q>allows you to change property values smoothly, over a given duration.</q> <sup><a href="#ft-w3schools">[1]</a></sup> This can be used to create smooth and simple animations, change color and size, and perform other transformations. CSS Transitions are not supported by Internet Explorer 9 or earlier versions.</p>
+      <p>To see the power of CSS Transitions, hover your mouse over the following figure. No Javascript or plugins are used - just pure CSS.</p>
+      <figure style="display: block; margin-left: auto; margin-right: auto;">
+        <div class="showcase centered">:)</div>
+      </figure>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <p>CSS Transitions specify an initial state and a final state, and intermediate states are automatically calculated <sup><a href="#ft-mozilla">[2]</a></sup>. They are easily used in conjunction with psuedoselectors such as <code>:hover</code>.</p>
+      <h2>How to use</h2>
+      <p>CSS Transitions require a minimum of two things:</p>
+      <ul>
+        <li>the <code>transition-property</code> to modify</li>
+        <li>a <code>transition-duration</code> over which the transition will take place</li>
+      </ul>
+      <p>If the duration is not specified, it will default to 0 and the entire purpose of the transition is lost.</p>
+      <p>For example, the following code will make a red box that, when hovered over by the mouse, will transition the <code>width</code> property from <code>50px</code> to <code>200px</code> over the duration of 2 seconds:</p>
+<pre>div {
+  width: 50px;
+  height: 100px;
+  background-color: red;
+  transition-property: width;
+  transition-duration: 2s;
+}
+
+div:hover {
+  width: 200px;
+}</pre>
+      <p>This code is demonstrated below (Hover your mouse over the rectangle to see the effect)</p>
+      <figure>
+        <div class="ex"></div>
+        <figcaption>Example</figcaption>
+      </figure>
+      
+    </section>
+    
+    <section>
+      <h2>Customizing transition properties</h2>
+      <p>Maybe we want something slightly different. One tweak we can make is by changing the duration from 2s to 4s as below:</p>
+      <figure>
+        <div class="ex"></div>
+        <figcaption>2s duration</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-duration: 4s;"></div>
+        <figcaption>4s duration</figcaption>
+      </figure>
+      <p>But what if this isn't quite what we wanted? There are two other CSS properties are used to customize the transition style:</p>
+      <ul>
+        <li><code>transition-delay</code></li>
+        <li><code>transition-timing-function</code></li>
+      </ul>
+      <p>We can change each of these properties to adjust the original example.</p>
+      <h2><code>transition-delay</code></h2>
+      <p>Let's add <code>transition-delay: 1s</code></p>
+      <p>This will, as the name suggests, create a delay before the transition is played. In our case, the transition waits until the mouse has been hovering for 1 second before playing.</p>
+      <figure>
+        <div class="ex"></div>
+        <figcaption>Original</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-delay: 1s"></div>
+        <figcaption>With <code>transition-delay</code></figcaption>
+      </figure>
+      <p>Notice that the transition is affected both ways -- there is a delay before beginning to grow and, once the mouse is removed, there is a delay before it returns to its original size. This symmetry applies to all of the transition properties.</p>
+      <h2><code>transition-timing-function</code></h2>
+      <p>Let's adjust the timing function. This specifies the speed curve of the transition - right now it defaults to <code>ease</code>, but there are other options. Here is a full list:</p>
+      <ul>
+        <li><code>linear</code> - same speed from start to end</li>
+        <li><code>ease-in</code> - starts slow, then fast</li>
+        <li><code>ease-out</code> - starts fast, then ends slowly</li>
+        <li><code>ease-in-out</code> - starts slow, then fast, then ends slowly</li>
+        <li><code>ease</code> - similar to <code>ease-in-out</code> but starts slightly faster than it ends</li>
+        <li><code>cubic-bezier(n,n,n,n)</code> - takes cubic-bezier parameters to calculate a custom ease in and ease out function</li>
+      </ul>
+      <p>Here's a look at each of these in action. Notice that all of the transitions take 2 seconds, but the rate of change is different for each one.</p>
+      <figure>
+        <div class="ex"></div>
+        <figcaption>Original</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-timing-function: linear;"></div>
+        <figcaption><code>linear</code> timing function</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-timing-function: ease-in;"></div>
+        <figcaption><code>ease-in</code> timing function</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-timing-function: ease-out;"></div>
+        <figcaption><code>ease-out</code> timing function</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-timing-function: ease-in-out;"></div>
+        <figcaption><code>ease-in-out</code> timing function</figcaption>
+      </figure>
+      <figure>
+        <div class="ex" style="transition-timing-function: cubic-bezier(.17, .67, .83, .67);"></div>
+        <figcaption><code>cubic-bezier(.17, .67, .83, .67)</code> timing function</figcaption>
+      </figure>
+      <p>An interactive website demonstrating the use of the <code>cubic-bezier</code> function can be found at <a href="https://cubic-bezier.com/#.17,.67,.83,.67">https://cubic-bezier.com</a>. (Some math skills are required)</p>
+    </section>
+    
+    <section>
+      <h2>Using the <code>transition</code> property</h2>
+      <p>The <code>transition</code> property is a nice shorthand that combines several of the transition properties we've discussed. It is often preferred for its ability to specify all of the transition properties at the same time.</p>
+      <p>The following are equivalent:</p>
+<pre>transition-property: width;
+transition-duration: 2s;
+transition-timing-function: linear;
+transition-delay: 1s;</pre>
+<pre>transition: width 2s linear 1s;</pre>
+      <p>Besides combining the property and duration values, the <code>transition</code> property accepts a comma-separated list to enable multiple transitions at the same time. For example, if we wanted our box to change color as well as grow, we can do the following:</p>
+<pre>div {
+  width: 50px;
+  height: 100px;
+  background-color: red;
+  transition: width 2s, background-color 2s;
+}
+
+div:hover {
+  width: 200px;
+  background-color: yellow;
+}</pre>
+      <p>Note that we are using the <code>transition</code> property as a shorthand for only two items: <code>transition-property</code> and <code>transition-duration</code>. The order is, of course, very important.</p>
+      <p>But anyway, here is what the above code looks like:</p>
+      <figure>
+        <div class="colorchange"></div>
+        <figcaption>Using multiple <code>transition</code> properties</figcaption>
+      </figure>
+      <p>If each of the desired transitions will take the same amount of time, the <code>all</code> value can be used instead. This will automatically detect transitionable changes between the two states and transition each one at the same time.</p>
+      <p>Example usage:</p>
+<pre>transition: all 2s;</pre>
+    </section>
+    
+    <section>
+      <h2>Other transitionable properties</h2>
+      <p>As demonstrated in the earlier example, transitions can be used on much more than just the <code>width</code> of an element. The following can be especially useful for creative and neat-looking transitions:</p>
+      <ul>
+        <li>background-color</li>
+        <li>scale</li>
+        <li>opacity</li>
+        <li>transform</li>
+        <li>color</li>
+        <li>flex-grow (if using flexbox)</li>
+        <li>font-weight</li>
+      </ul>
+      <p>A full list of properties that can be animated (according to MDN) can be found <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties">here</a>.</p>
+    </section>
+    <section>
+      <h2>Summary</h2>
+      <p>CSS Transitions gives programmer powerful and well-supported tools for simple, clean, neat-looking animations.</p>
+      <p>Every transition has the following properties:</p>
+      <ul>
+        <li><code>transition-property</code> (required)</li>
+        <li><code>transition-duration</code> (required, defaults to 0s)</li>
+        <li><code>transition-delay</code> (defaults to 0s)</li>
+        <li><code>transition-timing-function</code> (defaults to <code>ease</code>)</li>
+      </ul>
+      <p>The most commonly-used property is <code>transition</code>, which has the power to specify multiple transitions at once.</p>
+      <p>Now go see what you can create!</p>
+      <figure style="display: block; margin-left: auto; margin-right: auto;">
+        <div class="showcase centered">Thanks for reading :)</div>
+      </figure>
+    </section>
+  </article>
+  
+  <aside>
+    <hr>
+    References
+    <ol>
+      <li id="ft-w3schools"><a href="https://www.w3schools.com/css/css3_transitions.asp">https://www.w3schools.com/css/css3_transitions.asp</a></li>
+      <li id="ft-mozilla"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions">https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions</a></li>
+    </ol>
+  </aside>
+  
+  <script src="js/footer.js"></script>
+  
+</body>
+</html>
