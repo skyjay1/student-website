@@ -1,0 +1,230 @@
+<html>
+	<head>
+		<title> Wizard Runner </title>
+		<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+		<script>
+			var BG_W = 100000;
+			var BG_H = 450;
+
+			var GROUND_W = BG_W;
+			var GROUND_H = 50;
+
+			var WIN_W = 800;
+			var WIN_H = BG_H + GROUND_H;
+
+			var PLAYER_W = 140;
+			var PLAYER_H_IDLE = 200;
+			var PLAYER_H_RUN = 140;
+
+			var IMG_W = 292;
+
+			var gameStart = false;
+			var gameOver = false;
+
+			var speed = 1.0;
+
+			var score = 0;
+			if(!window.localStorage.hasOwnProperty("highScore")) {
+				window.localStorage.setItem("highScore", "0");
+			}
+			var highScore = window.localStorage.getItem("highScore");
+
+			function start(){
+
+				sjs.open("target", WIN_W, WIN_H);
+
+				// Background
+				var background = new sjs.Image("Images/empty.png");
+				background.setSize(BG_W, BG_H);
+				background.node.style.backgroundImage = "url('Images/wall.png')";
+				background.node.style.zIndex = "0";
+
+				// Ground
+				var ground = new sjs.Image("Images/empty.png");
+				ground.setSize(GROUND_W, GROUND_H);
+				ground.type = "ground";
+				ground.moveTo(0, 450);
+				ground.node.style.backgroundImage = "url('Images/ground.png')";
+				ground.noBounds = true;
+
+				// Scroller (buffer space)
+				var scroller = new sjs.Image("Images/empty.png");
+				scroller.type = "scroller";
+				scroller.setSize(PLAYER_W * 2.5, PLAYER_H_RUN);
+				scroller.centerH().moveTopOf(ground);
+				scroller.setGravity(4.5);
+				scroller.friction = 0.3;
+				scroller.noBounds = true;
+
+				//Player Properties 
+				var player = new sjs.Image("Images/idle.gif");
+				player.type = "player"; 
+				player.setSize(PLAYER_W, PLAYER_H_IDLE);
+				player.moveTopOf(ground);
+				player.moveLeftOf(scroller);
+				player.noBounds = true;
+				player.friction = scroller.friction;
+
+				// Enable scrolling
+				sjs.scrollable(scroller, background);
+
+				// High Score
+				document.getElementById("score").innerText = "High Score: " + highScore;
+				
+				// Start button
+				var startBtn = new sjs.Button("Start", function(){
+					gameStart = true;
+					startBtn.destroy();
+					// start the player running animation
+					player.setSize(PLAYER_W, PLAYER_H_RUN);
+					player.setImage("Images/run.gif");
+					player.moveTopOf(ground);
+
+					// start movement interval
+					setInterval(function(){
+						if(gameOver == false) {
+							scroller.pushRight(speed);
+							speed += 0.0008;
+							player.x = scroller.x - player.getWidth();
+						player.y = scroller.y;
+						}
+						
+					}, 20); // end movement interval 
+
+					// start score interval
+					setInterval(function() {
+						if(gameOver == false) {
+							score += 0.1;
+							score = Math.round(score * 10) / 10;
+							document.getElementById("score").innerText = "High Score: " + highScore + " . . . Score: " + score;
+						}
+					}, 100);
+
+					// start obstacle interval
+					setInterval(function() {
+						if(gameOver == false) {
+							var rand = Math.random();
+							var obstacleX = player.x + WIN_W + Math.random() * 100;
+							if(rand < 0.5) {
+								// create a ghost
+								var ghost = new sjs.Image("Images/ghost.gif");
+								ghost.type = "spike";
+								ghost.setSize(90, 90);
+								var ghostY = ground.y - ghost.getHeight();
+								if(Math.random() < 0.35) {
+									ghostY = ghostY - PLAYER_H_RUN - 10;
+								}
+								ghost.moveTo(obstacleX, ghostY);
+								setTimeout(function() { ghost.destroy(); }, 4200 / speed);
+							} else {
+								// create a spike
+								var spike = new sjs.Image("Images/spider.gif");
+								spike.type = "spike";
+								spike.setSize(84, 80);
+								spike.moveTo(obstacleX, ground.y + 20);
+								setTimeout(function() { spike.destroy(); }, 4200 / speed);
+							}							
+						}
+					}, 1800); // end obstacle interval
+
+					// start decoration interval
+					setInterval(function() {
+						if(gameOver == false) {
+							var rand = Math.random();
+							if(rand < 0.6) {
+								var rand2 = Math.random();
+								var paintingName = "Images/painting" + Math.round(1 + Math.random()*3) + ".png";
+								var painting = new sjs.Image(paintingName);
+								painting.setSize(100, 100);
+								var paintingX = Math.round((player.x + WIN_W) / IMG_W) * IMG_W + (IMG_W - painting.getWidth()) / 2;
+								painting.moveTo(paintingX, WIN_H / 2);
+								painting.node.style.zIndex = "0";
+								setTimeout(function() { painting.destroy(); }, 5000 / speed);
+							}
+						}
+					}, 1000);
+
+				});
+				startBtn.center();
+
+				//Player movement controls
+
+				//Jumping Code
+				var canJump = true;
+				sjs.keyDown(UP_KEY, function(){
+					if(gameOver == false && canJump == true){
+						canJump = false;
+						scroller.pushUp(55);
+						player.setImage("Images/jump.gif");
+						setTimeout(function() {
+							if(canJump == false && gameOver == false) {
+								player.setImage("Images/fall.gif")
+							}
+						}, 400);
+					}
+				});
+
+				// Falling Code (reset jumping, image, etc.)
+				sjs.onHit("scroller","ground",function(x,y){
+					sjs.stoppedBy(x,y);
+					if(gameOver == false && gameStart == true) {
+						player.setImage("Images/run.gif");
+						if(canJump == false){
+							canJump = true;
+						}
+					}
+				}); 
+
+				// Game Over (LOSE)
+				sjs.onHit("player", "spike", function(x,y) {
+					// make sure the game is in progress and we are close enough to the spike
+					if(gameOver == false && ((x.x + x.getWidth() / 2) - (y.x + y.getWidth() / 2))**2 < 180) {
+						gameOver = true;
+						scroller.stop();
+						player.setSize(PLAYER_H_IDLE, PLAYER_H_IDLE);
+						player.setImage("Images/death.gif");
+						player.y = scroller.y - ground.getHeight();
+						setTimeout(function() {
+							// reload the page
+							alert("Game over! Your score was " + score);
+							window.location.reload();
+						}, 900);
+						// save high score
+						if(score > highScore) {
+							window.localStorage.setItem("highScore", score);
+						}
+					}
+				});
+
+				// Game Over (WIN)
+				sjs.onHit("scroller","right_screen",function(x,y){
+					sjs.stoppedBy(x,y);
+					if(gameOver == false) {
+						gameOver = true;
+						gameStart = false;
+						player.setImage("Images/idle.gif");
+						player.setSize(PLAYER_W, PLAYER_H_IDLE);
+						player.y = scroller.y - ground.getHeight();
+						// save high score
+						if(score > highScore) {
+							window.localStorage.setItem("highScore", score);
+						}
+						// reload the page
+						setTimeout(function() { 
+							alert("How did you get this far?? I guess you win! Have a cookie 🍪🍪🍪");
+							window.location.reload();
+						}, 100);
+					}
+				});
+
+
+			}//end start function
+		</script>
+	</head>
+	<body onload="start()" style="background-color:#35355f;">
+		<h1 style="text-align:center;color:white"> Wizard Runner </h1>
+
+		<div id="target" style="margin:auto;background:grey;"></div>
+		<p id="score" style="margin:auto;text-align:center;color:white"></p>
+	</body>
+</html>
