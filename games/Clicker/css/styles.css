@@ -1,0 +1,205 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: slategray;
+}
+
+h1 {
+  text-align: center;
+}
+
+#main {
+  border: 2px solid black;
+  display: grid;
+  width: 600px;
+  grid-template-rows: 60px 270px 60px 60px;
+  grid-template-columns: 200px 396px;
+  grid-gap: 0;
+  font-size: 16pt;
+  margin: auto;
+  background-image: url("../img/cave.png");
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  user-select: none;
+}
+
+#stats-container > p,
+#per-click-container > p,
+#per-sec-container > p {
+  color: white;
+  text-shadow:
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+}
+
+#stats-container {
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+  font-weight: bold;
+}
+
+#clicker-container {
+  grid-column: 1 / 2 ;
+  grid-row: 2 / 3;
+}
+
+#clicker {
+  background-image: url("../img/diamond_large.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  transform: translateY(25%);
+  margin: auto;
+  width: 150px;
+  height: 96px;
+  transition: all 0.1s;
+}
+
+#clicker:hover {
+  width: 160px;
+  height: 106px;
+  cursor: pointer;
+}
+
+#clicker:active {
+  width: 140px;
+  height: 88px;
+}
+
+#per-click-container {
+  grid-column: 1 / 2;
+  grid-row: 3 / 3;
+}
+
+#per-sec-container {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+}
+
+#upgrade-container {
+  grid-column: 2 / 3;
+  grid-row: 2 / 4;
+  overflow-y: scroll;
+  display: flex;
+  flex-flow: wrap;
+}
+
+.upgrade {
+  display: grid;
+  grid-template-rows: 15px 80px 15px 25px;
+  grid-template-columns: 100%;
+  grid-row-gap: 0;
+  width: 120px;
+  height: 140px;
+  margin: 5px 0px 0px 5px;
+  font-size: 15px;
+  border: 2px ridge black;
+  border-radius: 10px;
+  background-color: tan;
+  transition: all 0.2s;
+}
+
+.upgrade:not(.locked):hover {
+  background-color: beige;
+}
+
+.upgrade-name {
+  grid-row-start: 1;
+}
+
+.upgrade-img {
+  grid-row-start: 2;
+  width: auto;
+  height: 100%;
+  margin: auto;
+}
+
+.upgrade-count {
+  grid-row-start: 3;
+}
+
+.upgrade .upgrade-cost {
+  grid-row-start: 4;
+  width: 100%;
+  border-width: 2px;
+  border-radius: 10px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.locked {
+  background-color: gray;
+}
+
+.unlocked {
+  background-color: tan;
+}
+
+.unlocked.upgrade-cost {
+  background-color: lime;
+  transition: all 0.25s;
+}
+
+.unlocked:hover {
+  background-color: greenyellow;
+  cursor: pointer;
+}
+
+.unlocked.upgrade-cost:active {
+  width: 88%;
+  height: 88%;
+  margin: auto;
+}
+
+#settings-container {
+  grid-column: 2 / 3;
+  grid-row: 4 / 5;
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+#settings-container > btn {
+  height: 80%;
+  width: 90%;
+  margin: auto;
+  padding-top: 10px;
+  border-width: 2px;
+  border-radius: 10px;
+  background-color: skyblue;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+#settings-container > btn:hover {
+  background-color: aqua;
+}
+
+#settings-container > btn:active {
+  background-color: dodgerblue;
+  width: 80%;
+  height: 70%;
+}
+
+.centered {
+  text-align: center;
+  vertical-align: center;
+}
+
+.particle {
+  position: fixed;
+  margin: auto;
+  margin-top: 0px;
+  color: cyan;
+  user-select: none;
+  transition: all 1s linear;
+}
+
+.fade-up {
+  opacity: 0;
+  margin-top: -100px;
+}
+

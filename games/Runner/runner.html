@@ -178,7 +178,7 @@
 				// Game Over (LOSE)
 				sjs.onHit("player", "spike", function(x,y) {
 					// make sure the game is in progress and we are close enough to the spike
-					if(gameOver == false && ((x.x + x.getWidth() / 2) - (y.x + y.getWidth() / 2))**2 < 180) {
+					if(gameOver == false && ((x.x + x.getWidth() / 2) - (y.x + y.getWidth() / 2))**2 < (25)**2) {
 						gameOver = true;
 						scroller.stop();
 						player.setSize(PLAYER_H_IDLE, PLAYER_H_IDLE);

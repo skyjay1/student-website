@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Clicker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/clicker.js"></script>
+  </head>
+  <body onload="start()">
+    <h1>Diamond Clicker</h1>
+    <div id="main">
+      <div id="stats-container">
+        <p class="centered">$0</p>
+      </div>
+      <div id="clicker-container">
+        <div id="clicker" class="centered" onclick="clickDiamond()"></div>
+      </div>
+      <div id="per-click-container">
+        <p class="centered">$0 / click</p>
+      </div>
+      <div id="per-sec-container">
+        <p class="centered">$0 / sec</p>
+      </div>
+      <div id="upgrade-container">
+        <!-- Upgrades are added here in clicker.js -->
+      </div>
+      <div id="settings-container">
+        <btn class="centered"  onclick="save()">Save</btn>
+        <btn class="centered" onclick="updateBuyAmount(1)">x1</btn>
+        <btn class="centered"  onclick="updateBuyAmount(10)">x10</btn>
+        <btn class="centered"  onclick="updateBuyAmount(25)">x25</btn>
+        <btn id="sound-btn" class="centered" onclick="toggleSound()">🔇</btn>
+        <btn class="centered"  onclick="reset()">Reset</btn>
+      </div>
+    </div>
+  </body>
+</html>
