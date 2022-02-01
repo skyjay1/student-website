@@ -330,12 +330,14 @@ let updateUpgradePriceLocks = function() {
 /* Updates the background based on which upgrade was just unlocked */
 let updateBackground = function(index) {
   bgIndex = index;
-  if(index == 4) {
-    gameWindow.style.backgroundImage = "url('img/camp.png')";
-  } else if(index == 7) {
-    gameWindow.style.backgroundImage = "url('img/factory.png')";
-  } else if(index == 9) {
+  if(index >= 9) {
     gameWindow.style.backgroundImage = "url('img/space.png')";
+  } if(index >= 7) {
+    gameWindow.style.backgroundImage = "url('img/factory.png')";
+  } else if(index >= 4) {
+    gameWindow.style.backgroundImage = "url('img/camp.png')";
+  } else {
+    gameWindow.style.backgroundImage = "url('img/cave.png')";
   }
 }
 
