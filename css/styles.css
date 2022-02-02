@@ -39,14 +39,14 @@ header nav a:hover {
   background-color: #61b7f7;
 }
 
-article h1 {
+h1, article>h2 {
   display: block;
   font-size: 200%;
   text-align: center;
   border-radius: 10px;
   background-color: mediumpurple;
   padding: 1rem;
-  margin: 1rem 0 0.5rem 0;
+  margin: 1.5rem 0 0.5rem 0;
   align-self: center;
   width: 100%;
 }
@@ -60,7 +60,7 @@ article section {
   width: 100%;
 }
 
-article section h2 {
+article section>h2 {
   margin-top: 0;
   text-align: center;
   border-radius: 10px;
